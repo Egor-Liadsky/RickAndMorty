@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import coil.compose.AsyncImage
 import com.lyadsky.pagerapp.data.entity.Result
 import com.lyadsky.pagerapp.features.main.viewModel.MainViewModel
 import org.koin.androidx.compose.get
@@ -49,9 +50,10 @@ fun CharacterItem(character: Result) {
             Text(text = character.location.toString(), style = TextStyle(
                 fontSize = 20.sp
             ))
-            Text(text = character.image.toString(), style = TextStyle(
+            Text(text = character.image, style = TextStyle(
                 fontSize = 16.sp
             ))
+            AsyncImage(model = character.image, contentDescription = null)
         }
     }
 }
