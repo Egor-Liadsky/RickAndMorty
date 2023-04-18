@@ -1,10 +1,15 @@
 package com.lyadsky.pagerapp.di
 
-import com.lyadsky.pagerapp.data.CharacterPager
+import com.lyadsky.pagerapp.data.pagers.CharacterPager
 import com.lyadsky.pagerapp.data.service.CharacterService
 import com.lyadsky.pagerapp.data.service.CharacterServiceImpl
+import com.lyadsky.pagerapp.features.characterInfo.viewModel.CharacterInfoViewModel
+import com.lyadsky.pagerapp.features.characterInfo.viewModel.CharacterInfoViewModelImpl
 import com.lyadsky.pagerapp.features.main.viewModel.MainViewModel
 import com.lyadsky.pagerapp.features.main.viewModel.MainViewModelImpl
+import com.lyadsky.pagerapp.navigation.Navigator
+import com.lyadsky.pagerapp.navigation.NavigatorImpl
+import com.lyadsky.pagerapp.navigation.ScreenRoute
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.logging.*
@@ -46,9 +51,15 @@ fun commonModule() = module {
 
     // ViewModel
     viewModel<MainViewModel>(named("MainViewModel")) {
-        MainViewModelImpl(get())
+        MainViewModelImpl(get(), get())
+    }
+    viewModel<CharacterInfoViewModel>(named("CharacterInfoViewModel")) {
+        CharacterInfoViewModelImpl(get())
     }
 
-    //CharacterPager
+    //Pager
     single { CharacterPager(get()) }
+
+    //Navigation
+    single<Navigator> { (start: ScreenRoute) -> NavigatorImpl(start) }
 }

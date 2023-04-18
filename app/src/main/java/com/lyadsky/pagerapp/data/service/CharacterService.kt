@@ -14,6 +14,7 @@ import org.koin.core.component.inject
 
 interface CharacterService {
     suspend fun getCharacters(page: Int): Character
+    suspend fun getCharacter(id: Int): Character
 }
 
 class CharacterServiceImpl : CharacterService, KoinComponent {
@@ -26,6 +27,11 @@ class CharacterServiceImpl : CharacterService, KoinComponent {
             method = HttpMethod.Get
             parameter("page", page)
         }
+        return json.decodeFromString(response.body())
+    }
+
+    override suspend fun getCharacter(id: Int): Character {
+        val response = httpClient.get("${Constants.BASE_URL}/character/$id")
         return json.decodeFromString(response.body())
     }
 }
